@@ -28,6 +28,7 @@ Example:
 
 ```text
 quantity x price = item total
+```
 
 ## Tech Stack
 
