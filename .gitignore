@@ -10,3 +10,7 @@ __pycache__/
 # EN: Ignore macOS system files
 # JP: macOSのシステムファイルを無視します
 .DS_Store
+
+# EN: Ignore the generated PDF receipt
+# JP: 生成されたPDFレシートを無視します`
+```gitignore

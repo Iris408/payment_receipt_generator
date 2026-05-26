@@ -9,16 +9,57 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 
 
-# EN: Receipt data stored as a list of lists
-# JP: レシートのデータをリストの中のリストとして保存します
+# EN: Store receipt items before calculation
+# JP: 計算前のレシート商品データを保存します
+
+items = [
+    ["Coffee", 2, 3.00],
+    ["Sandwich", 1, 5.00],
+    ["Cake", 1, 4.00],
+]
+
+
+# EN: Create the receipt table header
+# JP: レシートテーブルの見出しを作成します
 
 receipt_data = [
-    ["Item", "Quantity", "Price", "Total"],
-    ["Coffee", "2", "£3.00", "£6.00"],
-    ["Sandwich", "1", "£5.00", "£5.00"],
-    ["Cake", "1", "£4.00", "£4.00"],
-    ["", "", "Total", "£15.00"],
+    ["Item", "Quantity", "Price", "Total"]
 ]
+
+
+# EN: Start the total amount at 0
+# JP: 合計金額を0から開始します
+
+total_amount = 0
+
+
+# EN: Loop through each item and calculate the item total
+# JP: 各商品をループして商品の合計金額を計算します
+
+for item in items:
+    item_name = item[0]
+    quantity = item[1]
+    price = item[2]
+
+    item_total = quantity * price
+    total_amount = total_amount + item_total
+
+    receipt_data.append(
+        [
+            item_name,
+            quantity,
+            f"£{price:.2f}",
+            f"£{item_total:.2f}"
+        ]
+    )
+
+
+# EN: Add the final total row to the receipt table
+# JP: 最終的な合計行をレシートテーブルに追加します
+
+receipt_data.append(
+    ["", "", "Total", f"£{total_amount:.2f}"]
+)
 
 # EN: Basic receipt information
 # JP: 基本的なレシート情報
