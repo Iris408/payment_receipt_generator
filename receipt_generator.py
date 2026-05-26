@@ -77,8 +77,23 @@ receipt_data.append(
 # JP: 基本的なレシート情報
 
 customer_name = "John Smith"
-receipt_number = "REC-001"
-receipt_date = datetime.now().date()
+
+# EN: Get the current date and time for the receipt
+# JP: レシートの現在の日付と時間を取得します
+
+current_datetime = datetime.now()
+receipt_date = current_datetime.strftime("REC-%Y-%m-%d - %H:%M:%S")
+
+# EN: Create a unique receipt number using the current timestamp
+# JP: 現在のタイムスタンプを使用して一意のレシート番号を作成します
+
+receipt_number = f"{current_datetime.strftime("REC-%Y%m%d-%H%M%S")}"
+
+# EN: Create a readable receipt date and time
+# JP: 読みやすいレシートの日付と時間を作成します
+
+receipt_date = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+
 
 # EN: Create the PDF file
 # JP: PDFファイルを作成します
