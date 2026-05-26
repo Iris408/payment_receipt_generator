@@ -15,20 +15,18 @@ Created a static PDF payment receipt with:
 - Static item table
 - Sample PDF output
 
-### Version 2.0
+### Version 3.0
 
-Added automatic receipt calculation.
+Added user input for receipt items.
 
-This version calculates:
+This version allows the user to enter:
 
-- Item total
-- Final receipt total
+- Number of items
+- Item name
+- Quantity
+- Price
 
-Example:
-
-```text
-quantity x price = item total
-```
+Python then calculates each item total and the final total automatically before generating the PDF.
 
 ## Tech Stack
 
@@ -50,8 +48,8 @@ payment_receipt_generator/
 ```markdown
 ## Future Improvements
 
-- Version 3.0: Add user input for receipt items
 - Version 4.0: Generate unique receipt numbers
 - Version 5.0: Save receipts with unique filenames
 - Version 6.0: Add company/shop details
+- Version 7.0: Add input validation for incorrect values
 ```

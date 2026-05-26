@@ -9,15 +9,27 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 
 
-# EN: Store receipt items before calculation
-# JP: 計算前のレシート商品データを保存します
+# EN: Create an empty list to store receipt items
+# JP: レシートの商品データを保存するための空のリストを作成します
 
-items = [
-    ["Coffee", 2, 3.00],
-    ["Sandwich", 1, 5.00],
-    ["Cake", 1, 4.00],
-]
+items = []
 
+# EN: Ask the user how many items they want to add
+# JP: 追加したい商品の数をユーザーに尋ねます
+
+num_items = int(input("How many items do you want to add? "))
+
+# EN: Repeat the question for each item
+# JP: 各商品について質問を繰り返します
+
+for item_number in range(num_items):
+    print(f"Item {item_number + 1}:")
+
+    item_name = input("Enter item name: ")
+    quantity = int(input("Enter quantity: "))
+    price = float(input("Enter price: "))
+    
+    items.append([item_name, quantity, price])
 
 # EN: Create the receipt table header
 # JP: レシートテーブルの見出しを作成します
