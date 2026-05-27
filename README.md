@@ -59,6 +59,17 @@ Example
 receipt_REC-20260527-174505.pdf
 ```
 
+### Version 6.0
+
+Added company/shop details to the receipt.
+
+This version shows the business information near the top of the PDF receipt, including:
+
+- Company/ shop name
+- Address
+- Email address
+- Phone number
+
 ## Tech Stack
 
 - Python
@@ -78,8 +89,8 @@ payment_receipt_generator/
 
 ## Future Improvements
 ```text
-- Version 6.0: Add company/shop details
 - Version 7.0: Add input validation for incorrect values
 - Version 8.0: Improve PDF layout and styling
 - Version 9.0: Add receipt folder storage
+- Version 10.0: Add customer name input
 ```

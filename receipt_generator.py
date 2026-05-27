@@ -73,6 +73,14 @@ receipt_data.append(
     ["", "", "Total", f"£{total_amount:.2f}"]
 )
 
+# EN: Company/shop information shown at the top of the receipt
+# JP: レシートの上部に表示される会社/店舗情報
+
+company_name = "Python Coffee Shop"
+company_address = "123 Python Street, Python City, London, UK"
+company_email = "contact@pythoncoffeeshop.com"
+company_phone = "01234 567890"
+
 # EN: Basic receipt information
 # JP: 基本的なレシート情報
 
@@ -131,6 +139,19 @@ title = Paragraph("Payment Receipt", title_style)
 
 normal_style = styles["Normal"]
 
+# EN: Create company/shop information text
+# JP: 会社/店舗情報のテキストを作成します
+
+company_info = Paragraph(
+    f"""
+    <b>{company_name}</b><br/>
+    {company_address}<br/>
+    Email: {company_email}<br/>
+    Phone: {company_phone}
+    """,
+    normal_style
+)
+
 receipt_info = Paragraph(
     f"""
     Customer Name: {customer_name}<br/>
@@ -167,6 +188,8 @@ receipt_table.setStyle(table_style)
 
 pdf.build([
     title,
+    Spacer(1, 20),
+    company_info,
     Spacer(1, 20),
     receipt_info,
     Spacer(1, 20),
