@@ -4,98 +4,29 @@ A beginner Python project that generates a PDF payment receipt using ReportLab.
 
 ## Version History
 
-### Version 1.0
+### v1.0.0 — Static PDF Receipt Generator
 
-Created a static PDF payment receipt with:
+Created the first version of this project. This version generated a basic PDF receipt with static receipt data.
 
-- Receipt title
-- Customer name
-- Receipt number
-- Receipt date
-- Static item table
-- Sample PDF output
+### v2.0.0 – v4.0.0 — Core Receipt Logic
 
-### Version 2.0
+Added automatic calculation of item totals and final receipt totals. Added terminal input for receipt items, and unique receipt numbers.
 
-Added automatic receipt calculation.
+### v5.0.0 – v8.0.0 — PDF Improvements
 
-This version calculates:
+Added unique PDF filenames, company details, input validation, improved PDF layout, and VAT summary rows.
 
-- Item total
-- Final receipt total
+### v9.0.0 — Final Receipt Workflow Upgrade
 
-### Version 3.0
+Combined several workflow improvements into one release:
 
-Added user input for receipt items.
-
-This version allows the user to enter:
-
-- Number of items
-- Item name
-- Quantity
-- Price
-
-Python then calculates each item total and the final total automatically before generating the PDF.
-
-### Version 4.0
-
-Added automatic unique receipt numbers.
-
-This version generated a receipt number using the current date and time.
-
-Example
-```text
-REC-YYYYMMDD-HHMMSS
-```
-
-### Version 5.0
-
-Added unique PDF filenames.
-
-This version save each generated receipt with a unique filename using the receipt number, date and time.
-
-Example
-```text
-receipt_REC-20260527-174505.pdf
-```
-
-### Version 6.0
-
-Added company/shop details to the receipt.
-
-This version shows the business information near the top of the PDF receipt, including:
-
-- Company/ shop name
-- Address
-- Email address
-- Phone number
-
-### Version 7.0
-
-Added input validation.
-
-This version prevents the program from crashing when an invalid value is input.
-
-Validation was added for:
-
-- Number of receipt items
-- Item quantity and price
-
-### Version 8.0
-
-Improved PDF layout and styling and added VAT summary.
-
-This version improves the design of the generated receipt by adding:
-
-- Cleaner title formatting
-- Company/shop section styling
-- Fixed table column widths
-- Improved table spacing
-- Styled header and summary rows
-- VAT summary rows
-  - Total ex VAT
-  - VAT 20%
-  - Total inc VAT
+- Receipts are saved inside a `receipts/` folder
+- Customer name can be entered in the terminal
+- Company/shop details can be entered in the terminal
+- Payment method can be selected from Debit Card, Credit Card and Gift Card
+- Payment status can be shown as Approved or Declined
+- A static footer message is shown at the bottom of each receipt
+- Default company details are available if the user leaves fields blank
 
 ## Tech Stack
 
@@ -115,9 +46,9 @@ payment_receipt_generator/
 ```
 
 ## Future Improvements
-```text
-- Version 9.0: Add receipt folder storage
-- Version 10.0: Add customer name input
-- Version 11.0: Add company details input
-- Version 12.0: Add payment method failed
-```
+
+- Export receipt data to CSV
+- Add receipt search/history
+- Add a simple web UI interface
+- Add automated tests
+- Package the project for easier setup

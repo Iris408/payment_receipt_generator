@@ -18,3 +18,4 @@ __pycache__/
 # EN: Ignore generated receipt PDF files
 # JP: 生成されたレシートPDFファイルを無視します
 receipt_*.pdf
+receipts_*.pdf

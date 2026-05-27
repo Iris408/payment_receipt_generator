@@ -1,6 +1,6 @@
-# EN: Import tools needed to create a PDF receipt
-# JP: PDFレシートを作成するために必要なツールをインポートします
-
+# EN: Import
+# JP: インポート
+import os
 from datetime import datetime
 
 from reportlab.platypus import SimpleDocTemplate, Spacer, Table, Paragraph, TableStyle
@@ -9,13 +9,42 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 from reportlab.lib.styles import getSampleStyleSheet
 
+# =========================================
+# EN: Text input helper functions
+# JP: テキスト入力用のヘルパー関数
+# =========================================
 
-# EN: Input validation helper function
-# JP: 入力チェックのヘルパー関数
+def get_required_text(prompt):
+    # EN: Keep asking until the user enters text
+    # JP: ユーザーがテキストを入力するまで繰り返します
+
+    while True:
+        value = input(prompt).strip()
+
+        if value:
+            return value
+
+        print("This field cannot be empty.")
+
+def get_optional_text(prompt, default_value):
+    # EN: Use default value if the user leaves the field blank
+    # JP: 入力が空の場合はデフォルト値を使用します
+
+    value = input(f"{prompt} [{default_value}]: ").strip()
+
+    if value:
+        return value
+
+    return default_value
+
+# =========================================
+# EN: Number input validation helper functions
+# JP: 数値入力チェック用のヘルパー関数
+# =========================================
 
 def get_valid_number_of_items():
-    # EN: Keep asking the user until they provide a valid number of items
-    # JP: ユーザーが有効な商品の数を提供するまで、繰り返し尋ねます
+    # EN: Keep asking until the user enters a valid whole number
+    # JP: ユーザーが有効な整数を入力するまで繰り返します
 
     while True:
         try:
@@ -23,15 +52,16 @@ def get_valid_number_of_items():
 
             if number_of_items <= 0:
                 print("Please enter a number greater than 0.")
+
             else:
                 return number_of_items
-            
+
         except ValueError:
             print("Invalid input. Please enter a whole number.")
 
 def get_valid_quantity():
-    # EN: Keep asking the user until they provide a valid quantity
-    # JP: ユーザーが有効な数量を提供するまで、繰り返し尋ねます
+    # EN: Keep asking until the user enters a valid quantity
+    # JP: ユーザーが有効な数量を入力するまで繰り返します
 
     while True:
         try:
@@ -39,15 +69,16 @@ def get_valid_quantity():
 
             if quantity <= 0:
                 print("Please enter a quantity greater than 0.")
+
             else:
                 return quantity
-            
+
         except ValueError:
-            print("Invalid input. Please enter a whole number.")         
+            print("Invalid input. Please enter a whole number.")
 
 def get_valid_price():
-    # EN: Keep asking the user until they provide a valid price
-    # JP: ユーザーが有効な価格を提供するまで、繰り返し尋ねます
+    # EN: Keep asking until the user enters a valid price
+    # JP: ユーザーが有効な価格を入力するまで繰り返します
 
     while True:
         try:
@@ -55,55 +86,160 @@ def get_valid_price():
 
             if price <= 0:
                 print("Please enter a price greater than 0.")
+
             else:
                 return price
-            
+
         except ValueError:
             print("Invalid input. Please enter a number.")
 
-# EN: Create an empty list to store receipt items
+# =========================================
+# EN: Payment helper functions
+# JP: 支払い用のヘルパー関数
+# =========================================
 
-# JP: レシートの商品データを保存するための空のリストを作成します
+def get_payment_method():
+    # EN: Let the user choose a valid payment method
+    # JP: ユーザーが有効な支払い方法を選択できるようにします
+
+    valid_payment_methods = ["Debit Card", "Credit Card", "Gift Card"]
+
+    while True:
+        payment_method = input(
+            "Enter payment method (Debit Card, Credit Card, Gift Card) [Debit Card]: "
+        ).strip()
+
+        if payment_method == "":
+            return "Debit Card"
+
+        for valid_method in valid_payment_methods:
+            if payment_method.lower() == valid_method.lower():
+                return valid_method
+
+        print("Invalid payment method. Please enter Debit Card, Credit Card, or Gift Card.")
+
+def get_payment_status():
+    # EN: Let the user confirm whether the payment was approved or declined
+    # JP: 支払いが承認されたか拒否されたかを確認します
+
+    valid_payment_statuses = ["Approved", "Declined"]
+
+    while True:
+        payment_status = input(
+            "Enter payment status (Approved, Declined) [Approved]: "
+        ).strip()
+
+        if payment_status == "":
+            return "Approved"
+
+        for valid_status in valid_payment_statuses:
+            if payment_status.lower() == valid_status.lower():
+                return valid_status
+
+        print("Invalid payment status. Please enter Approved or Declined.")
+
+# =========================================
+# EN: Collect company, customer, and payment details
+# JP: 会社・顧客・支払い情報を取得
+# =========================================
+
+type_of_receipt = get_optional_text(
+    "Enter type of receipt",
+    "Payment Receipt"
+)
+
+company_name = get_optional_text(
+    "Enter company/shop name",
+    "Python Coffee Shop"
+)
+
+company_address = get_optional_text(
+    "Enter company/shop address",
+    "123 Python Street"
+)
+
+company_email = get_optional_text(
+    "Enter company/shop email",
+    "contact@pythonshop.com"
+)
+
+company_phone = get_optional_text(
+    "Enter company/shop phone",
+    "01234 567890"
+
+)
+
+customer_name = get_required_text("Enter customer name: ")
+
+payment_method = get_payment_method()
+
+payment_status = get_payment_status()
+
+footer_message = "Thank you for your purchase."
+
+
+# =========================================
+# EN: Create receipt date, receipt number, and PDF filename
+# JP: レシート日付・レシート番号・PDFファイル名を作成
+# =========================================
+
+current_datetime = datetime.now()
+
+receipt_number = current_datetime.strftime("REC-%Y%m%d-%H%M%S")
+
+receipt_date = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+
+# EN: Create receipts folder if it does not exist
+# JP: receipts フォルダが存在しない場合は作成します
+
+os.makedirs("receipts", exist_ok=True)
+
+# EN: Save generated PDFs inside the receipts folder
+# JP: 作成されたPDFをreceiptsフォルダ内に保存します
+
+pdf_filename = os.path.join(
+    "receipts",
+    f"receipt_{receipt_number}.pdf"
+)
+
+# EN: Create the PDF file
+# JP: PDFファイルを作成します
+
+pdf = SimpleDocTemplate(
+    pdf_filename,
+    pagesize=A4
+)
+
+# =========================================
+# EN: Collect receipt items from user input
+# JP: ユーザー入力からレシート商品データを取得
+# =========================================
 
 items = []
 
-# EN: Ask the user how many items they want to add
-# JP: 追加したい商品の数をユーザーに尋ねます
+number_of_items = get_valid_number_of_items()
 
-num_items = get_valid_number_of_items()
+for item_number in range(number_of_items):
+    print(f"\nItem {item_number + 1}")
 
-# EN: Repeat the question for each item
-# JP: 各商品について質問を繰り返します
-
-for item_number in range(num_items):
-    print(f"Item {item_number + 1}:")
-
-    item_name = input("Enter item name: ")
+    item_name = get_required_text("Enter item name: ")
     quantity = get_valid_quantity()
     price = get_valid_price()
-    
+
     items.append([item_name, quantity, price])
 
-# EN: Create the receipt table header
-# JP: レシートテーブルの見出しを作成します
+# =========================================
+# EN: Create receipt table data
+# JP: レシートテーブルデータを作成
+# =========================================
 
 receipt_data = [
     ["Item", "Quantity", "Price", "Total"]
 ]
 
-# EN: Start the subtotal amount at 0
-# JP: 小計金額を0から開始します
-
 subtotal_ex_vat = 0
 
-# EN: VAT rate used for receipt calculation
-# JP: レシート計算に使用するVAT率
-
 vat_rate = 0.20
-
-
-# EN: Loop through each item and calculate the item total
-# JP: 各商品をループして商品の合計金額を計算します
 
 for item in items:
     item_name = item[0]
@@ -128,7 +264,6 @@ for item in items:
 vat_amount = subtotal_ex_vat * vat_rate
 total_inc_vat = subtotal_ex_vat + vat_amount
 
-
 # EN: Add summary rows under Price and Total columns only
 # JP: Price列とTotal列の下だけに集計行を追加します
 
@@ -136,95 +271,43 @@ receipt_data.append(["", "", "Total ex VAT", f"£{subtotal_ex_vat:.2f}"])
 receipt_data.append(["", "", "VAT 20%", f"£{vat_amount:.2f}"])
 receipt_data.append(["", "", "Total inc VAT", f"£{total_inc_vat:.2f}"])
 
-# EN: Company/shop information shown at the top of the receipt
-# JP: レシートの上部に表示される会社/店舗情報
-
-type_of_receipt = "Sales Receipt"
-company_address = "123 Python Street, Python City, London, UK"
-company_email = "contact@pythoncoffeeshop.com"
-company_phone = "01234 567890"
-
-# EN: Basic receipt information
-# JP: 基本的なレシート情報
-
-customer_name = "John Smith"
-
-# EN: Get the current date and time for the receipt
-# JP: レシートの現在の日付と時間を取得します
-
-current_datetime = datetime.now()
-receipt_date = current_datetime.strftime("REC-%Y-%m-%d - %H:%M:%S")
-
-# EN: Create a unique receipt number using the current timestamp
-# JP: 現在のタイムスタンプを使用して一意のレシート番号を作成します
-
-receipt_number = f"{current_datetime.strftime("REC-%Y%m%d-%H%M%S")}"
-
-# EN: Create a readable receipt date and time
-# JP: 読みやすいレシートの日付と時間を作成します
-
-receipt_date = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
-
-# EN: Create a unique PDF filename using the receipt number
-# JP: レシート番号を使用して一意のPDFファイル名を作成します
-
-pdf_filename = f"receipt_{receipt_number}.pdf"
-
-# EN: Create the PDF file
-# JP: PDFファイルを作成します
-
-pdf = SimpleDocTemplate(
-    pdf_filename,
-    pagesize=A4
-)
-
-
-# EN: Get default text styles from ReportLab
-# JP: ReportLabから標準の文字スタイルを取得します
+# =========================================
+# EN: Create PDF text styles
+# JP: PDFテキストスタイルを作成
+# =========================================
 
 styles = getSampleStyleSheet()
 
-
-# EN: Create a clean centered title style
-# JP: 中央揃えのきれいなタイトルスタイルを作成します
-
-title_style = styles["Heading1"]
-title_style.alignment = 1 
+title_style = styles["Heading1"].clone("TitleStyle")
+title_style.alignment = 1
 title_style.fontSize = 22
 title_style.spaceAfter = 20
 
-
-# EN: Create the receipt title
-# JP: レシートのタイトルを作成します
-
-title = Paragraph("Python Coffee Shop", title_style)
-
-# EN: Create receipt information text
-# JP: レシート情報のテキストを作成します
-
-normal_style = styles["Normal"]
-
-# EN: Create centered company information style
-# JP: 中央揃えの会社情報スタイルを作成します
-
-company_style = styles["Normal"]
+company_style = styles["Normal"].clone("CompanyStyle")
 company_style.alignment = 1
 company_style.fontSize = 10
 company_style.leading = 14
 
-# EN: Create receipt information style
-# JP: レシート情報のスタイルを作成します
-
-receipt_info_style = styles["Normal"]
+receipt_info_style = styles["Normal"].clone("ReceiptInfoStyle")
 receipt_info_style.fontSize = 10
 receipt_info_style.leading = 14
 
-# EN: Create company/shop information text
-# JP: 会社・店舗情報のテキストを作成します
+footer_style = styles["Normal"].clone("FooterStyle")
+footer_style.alignment = 1
+footer_style.fontSize = 10
+footer_style.leading = 14
+footer_style.spaceBefore = 20
+
+# =========================================
+# EN: Create PDF text sections
+# JP: PDFテキストセクションを作成
+# =========================================
+
+title = Paragraph(type_of_receipt, title_style)
 
 company_info = Paragraph(
     f"""
-    <b>{type_of_receipt}</b><br/>
+    <b>{company_name}</b><br/>
     {company_address}<br/>
     Email: {company_email}<br/>
     Phone: {company_phone}
@@ -232,56 +315,64 @@ company_info = Paragraph(
     company_style
 )
 
-# EN: Create receipt information text
-# JP: レシート情報のテキストを作成します
-
 receipt_info = Paragraph(
     f"""
     <b>Customer Name:</b> {customer_name}<br/>
     <b>Receipt Number:</b> {receipt_number}<br/>
-    <b>Receipt Date:</b> {receipt_date}
+    <b>Receipt Date:</b> {receipt_date}<br/>
+    <b>Payment Method:</b> {payment_method}<br/>
+    <b>Payment Status:</b> {payment_status}
     """,
     receipt_info_style
+
 )
 
-# EN: Create table styling
-# JP: テーブルのスタイルを作成します
+footer_info = Paragraph(
+    f"<b>{footer_message}</b>",
+    footer_style
+)
+
+# =========================================
+# EN: Create receipt table styling
+# JP: レシートテーブルのスタイルを作成
+# =========================================
 
 table_style = TableStyle(
     [
         # EN: Main table border and grid lines
         # JP: テーブル全体の枠線とグリッド線
-        ("BOX", (0, 0), (-1, -1), 1, colors.lightgrey),
-        ("GRID", (0, 0), (-1, -1), 0.5, colors.lightgrey),
+        ("BOX", (0, 0), (-1, -1), 1, colors.black),
+        ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
 
         # EN: Header row styling
-        # JP: ヘッダ行のスタイル
-        ("BACKGROUND", (0, 0), (-1, 0), colors.gainsboro),
-        ("TEXTCOLOR", (0, 0), (-1, 0), colors.black),
+        # JP: ヘッダー行のスタイル
+        ("BACKGROUND", (0, 0), (-1, 0), colors.grey),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
         ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
 
         # EN: Body row styling
         # JP: 本文行のスタイル
-        ("BACKGROUND", (0, 1), (-1, -2), colors.white),
+        ("BACKGROUND", (0, 1), (-1, -4), colors.white),
         ("FONTNAME", (0, 1), (-1, -1), "Helvetica"),
         ("FONTSIZE", (0, 0), (-1, -1), 10),
 
         # EN: Summary row styling for Price and Total columns only
         # JP: Price列とTotal列だけに集計行のスタイルを適用します
-        ("BACKGROUND", (0, 1), (-1, -4), colors.white),
+        ("BACKGROUND", (2, -3), (-1, -1), colors.white),
         ("FONTNAME", (2, -3), (-1, -1), "Helvetica-Bold"),
-        ("BOX", (2, -3), (-1, -1), 1, colors.lightgrey),
-        ("GRID", (2, -3), (-1, -1), 0.5, colors.lightgrey),
-        
-        # EN: Alignment
-        # JP: 配置
+        ("BOX", (2, -3), (-1, -1), 1, colors.white),
+        ("GRID", (2, -3), (-1, -1), 0.5, colors.black),
+
+        # EN: Keep table text centered
+        # JP: テーブル内のテキストを中央揃えにします
         ("ALIGN", (0, 0), (-1, -1), "CENTER"),
 
-        # EN: Padding for cleaner spacing
-        # JP: 読みやすくするための余白
+        # EN: Add spacing inside each cell
+        # JP: 各セルに余白を追加します
         ("LEFTPADDING", (0, 0), (-1, -1), 6),
         ("RIGHTPADDING", (0, 0), (-1, -1), 6),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+        ("TOPPADDING", (0, 0), (-1, -1), 8),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
 
         # EN: Keep text vertically centered
         # JP: テキストを縦方向の中央に配置
@@ -289,20 +380,29 @@ table_style = TableStyle(
     ]
 )
 
-
-# EN: Create the receipt table with fixed column widths
-# JP: 固定された列幅でレシートテーブルを作成します
+# =========================================
+# EN: Create the receipt table
+# JP: レシートテーブルを作成
+# =========================================
 
 receipt_table = Table(
     receipt_data,
-    colWidths=[2.0 * inch, 1.0 * inch, 1.2 * inch, 1.2 * inch]
+    colWidths=[
+        2.5 * inch,
+        1.0 * inch,
+        1.2 * inch,
+        1.2 * inch
+
+    ]
+
 )
 
 receipt_table.setStyle(table_style)
 
-
+# =========================================
 # EN: Build the final PDF
-# JP: 最終的なPDFを作成します
+# JP: 最終的なPDFを作成
+# =========================================
 
 pdf.build([
     title,
@@ -311,11 +411,15 @@ pdf.build([
     Spacer(1, 20),
     receipt_info,
     Spacer(1, 20),
-    receipt_table
+    receipt_table,
+    Spacer(1, 20),
+    footer_info
+
 ])
 
-
+# =========================================
 # EN: Show a success message in the terminal
-# JP: ターミナルに成功メッセージを表示します
+# JP: ターミナルに成功メッセージを表示
+# =========================================
 
 print(f"Receipt created successfully: {pdf_filename}")
