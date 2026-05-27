@@ -81,6 +81,22 @@ Validation was added for:
 - Number of receipt items
 - Item quantity and price
 
+### Version 8.0
+
+Improved PDF layout and styling and added VAT summary.
+
+This version improves the design of the generated receipt by adding:
+
+- Cleaner title formatting
+- Company/shop section styling
+- Fixed table column widths
+- Improved table spacing
+- Styled header and summary rows
+- VAT summary rows
+  - Total ex VAT
+  - VAT 20%
+  - Total inc VAT
+
 ## Tech Stack
 
 - Python
@@ -100,8 +116,8 @@ payment_receipt_generator/
 
 ## Future Improvements
 ```text
-- Version 8.0: Improve PDF layout and styling
 - Version 9.0: Add receipt folder storage
 - Version 10.0: Add customer name input
 - Version 11.0: Add company details input
+- Version 12.0: Add payment method failed
 ```
