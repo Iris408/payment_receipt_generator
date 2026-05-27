@@ -48,6 +48,17 @@ Example
 REC-YYYYMMDD-HHMMSS
 ```
 
+### Version 5.0
+
+Added unique PDF filenames.
+
+This version save each generated receipt with a unique filename using the receipt number, date and time.
+
+Example
+```text
+receipt_REC-20260527-174505.pdf
+```
+
 ## Tech Stack
 
 - Python
@@ -65,11 +76,10 @@ payment_receipt_generator/
 └── .gitignore
 ```
 
-```markdown
 ## Future Improvements
-
-- Version 5.0: Save receipts with unique filenames
+```text
 - Version 6.0: Add company/shop details
 - Version 7.0: Add input validation for incorrect values
 - Version 8.0: Improve PDF layout and styling
+- Version 9.0: Add receipt folder storage
 ```

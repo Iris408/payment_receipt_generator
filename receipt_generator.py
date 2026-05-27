@@ -94,12 +94,16 @@ receipt_number = f"{current_datetime.strftime("REC-%Y%m%d-%H%M%S")}"
 
 receipt_date = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
 
+# EN: Create a unique PDF filename using the receipt number
+# JP: レシート番号を使用して一意のPDFファイル名を作成します
+
+pdf_filename = f"receipt_{receipt_number}.pdf"
 
 # EN: Create the PDF file
 # JP: PDFファイルを作成します
 
 pdf = SimpleDocTemplate(
-    "payment_receipt.pdf",
+    pdf_filename,
     pagesize=A4
 )
 
@@ -173,4 +177,4 @@ pdf.build([
 # EN: Show a success message in the terminal
 # JP: ターミナルに成功メッセージを表示します
 
-print("Receipt created successfully: payment_receipt.pdf")
+print(f"Receipt created successfully: {pdf_filename}")

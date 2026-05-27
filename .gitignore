@@ -14,3 +14,7 @@ __pycache__/
 # EN: Ignore the generated PDF receipt
 # JP: 生成されたPDFレシートを無視します`
 ```gitignore
+
+# EN: Ignore generated receipt PDF files
+# JP: 生成されたレシートPDFファイルを無視します
+receipt_*.pdf
