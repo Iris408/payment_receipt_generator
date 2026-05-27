@@ -9,7 +9,59 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 
 
+# EN: Input validation helper function
+# JP: 入力チェックのヘルパー関数
+
+def get_valid_number_of_items():
+    # EN: Keep asking the user until they provide a valid number of items
+    # JP: ユーザーが有効な商品の数を提供するまで、繰り返し尋ねます
+
+    while True:
+        try:
+            number_of_items = int(input("How many items do you want to add? "))
+
+            if number_of_items <= 0:
+                print("Please enter a number greater than 0.")
+            else:
+                return number_of_items
+            
+        except ValueError:
+            print("Invalid input. Please enter a whole number.")
+
+def get_valid_quantity():
+    # EN: Keep asking the user until they provide a valid quantity
+    # JP: ユーザーが有効な数量を提供するまで、繰り返し尋ねます
+
+    while True:
+        try:
+            quantity = int(input("Enter quantity: "))
+
+            if quantity <= 0:
+                print("Please enter a quantity greater than 0.")
+            else:
+                return quantity
+            
+        except ValueError:
+            print("Invalid input. Please enter a whole number.")         
+
+def get_valid_price():
+    # EN: Keep asking the user until they provide a valid price
+    # JP: ユーザーが有効な価格を提供するまで、繰り返し尋ねます
+
+    while True:
+        try:
+            price = float(input("Enter price: "))
+
+            if price <= 0:
+                print("Please enter a price greater than 0.")
+            else:
+                return price
+            
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
 # EN: Create an empty list to store receipt items
+
 # JP: レシートの商品データを保存するための空のリストを作成します
 
 items = []
@@ -17,7 +69,7 @@ items = []
 # EN: Ask the user how many items they want to add
 # JP: 追加したい商品の数をユーザーに尋ねます
 
-num_items = int(input("How many items do you want to add? "))
+num_items = get_valid_number_of_items()
 
 # EN: Repeat the question for each item
 # JP: 各商品について質問を繰り返します
@@ -26,8 +78,8 @@ for item_number in range(num_items):
     print(f"Item {item_number + 1}:")
 
     item_name = input("Enter item name: ")
-    quantity = int(input("Enter quantity: "))
-    price = float(input("Enter price: "))
+    quantity = get_valid_quantity()
+    price = get_valid_price()
     
     items.append([item_name, quantity, price])
 

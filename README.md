@@ -70,6 +70,17 @@ This version shows the business information near the top of the PDF receipt, inc
 - Email address
 - Phone number
 
+### Version 7.0
+
+Added input validation.
+
+This version prevents the program from crashing when an invalid value is input.
+
+Validation was added for:
+
+- Number of receipt items
+- Item quantity and price
+
 ## Tech Stack
 
 - Python
@@ -89,8 +100,8 @@ payment_receipt_generator/
 
 ## Future Improvements
 ```text
-- Version 7.0: Add input validation for incorrect values
 - Version 8.0: Improve PDF layout and styling
 - Version 9.0: Add receipt folder storage
 - Version 10.0: Add customer name input
+- Version 11.0: Add company details input
 ```
