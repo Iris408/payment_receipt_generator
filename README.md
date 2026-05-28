@@ -1,6 +1,6 @@
 # Payment Receipt Generator
 
-A beginner Python project that generates a PDF payment receipt using ReportLab.
+This is a beginner Python project that generates a PDF payment receipt using ReportLab.
 
 ## Current Version - V5.0
 Version 5.0 improves the receipt structure and adds automatic payment calculations.
